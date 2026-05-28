@@ -1,0 +1,26 @@
+router bgp 100
+   neighbor v4-mesh peer group
+   neighbor v4-mesh remote-as 100
+   neighbor v4-mesh update-source Loopback0
+   neighbor v4-mesh send-community standard extended
+   neighbor v6-mesh peer group
+   neighbor v6-mesh remote-as 100
+   neighbor v6-mesh update-source Loopback0
+   neighbor v6-mesh send-community standard extended
+   {% for id in mesh %}
+   neighbor 172.0.0.{{id}} peer group v4-mesh
+   {%- endfor %}
+   !
+   {% for id in mesh %}
+   neighbor abcd::{{id}} peer group v6-mesh
+   {%- endfor %}
+   !
+   address-family ipv4
+      neighbor v4-mesh activate
+   address-family ipv6
+      neighbor v6-mesh activate
+   address-family vpn-ipv4
+      neighbor v4-mesh activate
+   address-family vpn-ipv6
+      neighbor v6-mesh activate
+

@@ -1,0 +1,30 @@
+{% if l2vpn_interfaces %}
+interface Port-Channel1
+   description EVPN-VPLS Interface
+   switchport mode trunk
+{%- for intf in l2vpn_interfaces %}
+   no shutdown
+{% endfor %}
+!
+router bgp 100
+   neighbor 172.0.0.1 peer group EVPN
+   neighbor 172.0.0.1 ebgp-multihop
+   !
+   address-family evpn
+      neighbor EVPN activate
+      neighbor EVPN send-community
+   !
+   vlan 100
+      rd 172.0.0.{{id}}:1
+      route-target import 100:1
+      route-target export 100:1
+      redistribute learned
+!
+{% for intf in l2vpn_interfaces %}
+interface {{ intf['name'] }}
+   switchport
+   switchport trunk allowed vlan 100
+   no shutdown
+!
+{% endfor %}
+{% endif %}

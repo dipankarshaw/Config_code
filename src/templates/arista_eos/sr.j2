@@ -1,0 +1,13 @@
+
+interface Loopback0
+   node-segment ipv4 index 4{{id}}
+   node-segment ipv6 index 6{{id}}
+!
+mpls ip
+!
+router isis 1
+   segment-routing mpls
+      no shutdown
+!
+
+

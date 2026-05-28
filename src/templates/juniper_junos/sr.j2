@@ -1,0 +1,11 @@
+{% if kind != 'juniper_crpd' %}
+set chassis network-services enhanced-ip
+{% endif %}
+set protocols isis source-packet-routing srgb start-label 16000
+set protocols isis source-packet-routing srgb index-range 8000
+set protocols isis source-packet-routing node-segment ipv4-index 4{{id}}
+set protocols isis source-packet-routing node-segment ipv6-index 6{{id}}
+set protocols mpls interface all
+{% for intf in lks -%}
+set protocols mpls interface {{intf['name']}}
+{% endfor %}

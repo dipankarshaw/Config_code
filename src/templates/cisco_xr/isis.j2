@@ -1,0 +1,48 @@
+router isis 1
+ net 49.0001.0000.0000.000{{id}}.00
+ lsp-password keychain ISIS-DB
+ address-family ipv4 unicast
+  metric-style wide
+ !
+ address-family ipv6 unicast
+  metric-style wide
+ !
+ interface Loopback0
+  passive
+  address-family ipv4 unicast
+   metric 1
+  !
+  address-family ipv6 unicast
+  metric 1
+  !
+ !
+{% for intf in lks %}
+ interface {{intf['name'].replace("-", "/")}}
+  circuit-type level-2-only
+  point-to-point
+  hello-password keychain ISIS-DB
+  suppressed
+  address-family ipv4 unicast
+   metric 10
+  !
+  address-family ipv6 unicast
+   metric 10
+  !
+ !
+{% endfor %}
+
+key chain ISIS-DB
+ key 0
+  accept-lifetime 00:00:00 september 01 2024 00:00:00 september 01 2025
+  key-string clear abcd
+  send-lifetime 00:00:00 september 01 2024 00:00:00 september 01 2025
+  cryptographic-algorithm HMAC-MD5
+ !
+ key 1
+  accept-lifetime 00:00:00 october 01 2024 infinite
+  key-string clear abcd1
+  send-lifetime 00:00:00 october 01 2024 infinite
+  cryptographic-algorithm HMAC-MD5
+ !
+!
+

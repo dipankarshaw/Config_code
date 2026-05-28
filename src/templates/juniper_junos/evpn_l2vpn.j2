@@ -1,0 +1,14 @@
+{% if l2vpn_interfaces %}
+{%- for intf in l2vpn_interfaces %}
+set interfaces {{ intf['name'] }} encapsulation ethernet-bridge
+set interfaces {{ intf['name'] }} unit 0 family bridge
+{% endfor %}
+set routing-instances EVPN-VPLS instance-type evpn
+set routing-instances EVPN-VPLS vlan-id none
+set routing-instances EVPN-VPLS protocols evpn encapsulation mpls
+{%- for intf in l2vpn_interfaces %}
+set routing-instances EVPN-VPLS interface {{ intf['name'] }}.0
+{% endfor %}
+set routing-instances EVPN-VPLS route-distinguisher 172.0.0.{{id}}:1
+set routing-instances EVPN-VPLS vrf-target target:100:1
+{% endif %}

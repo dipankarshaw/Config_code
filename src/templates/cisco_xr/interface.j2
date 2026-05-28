@@ -1,0 +1,13 @@
+{% for intf in lks %}
+interface {{intf['name'].replace("-", "/")}}
+   description {{intf['des']}}
+   ipv4 address 10.{{intf['ip_blc']}}.0.{{id}}/24
+   ipv6 address 2000:abcd:{{intf['ip_blc']}}::{{id}}/64
+   no shut
+!
+{%- endfor %}
+interface Loopback0
+ ipv6 address abcd::{{id}}/128
+ ipv4 address 172.0.0.{{id}}/32
+!
+

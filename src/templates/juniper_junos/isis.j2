@@ -1,0 +1,21 @@
+set protocols isis interface lo0.0 level 2 metric 1
+set protocols isis net 49.0001.0000.0000.000{{id}}.00
+{% if kind == 'juniper_vjunosrouter' %}
+set security authentication-key-chains key-chain ISIS-DB key 0 secret abcd
+set security authentication-key-chains key-chain ISIS-DB key 0 start-time "2024-1-1.00:00:00 +0000"
+set security authentication-key-chains key-chain ISIS-DB key 0 algorithm md5
+set security authentication-key-chains key-chain ISIS-DB key 1 secret abcd1
+set security authentication-key-chains key-chain ISIS-DB key 1 start-time 2025-7-31.00:00
+set security authentication-key-chains key-chain ISIS-DB key 1 algorithm md5
+set protocols isis level 2 authentication-key-chain ISIS-DB
+set protocols isis level 1 disable
+{% for intf in lks -%}
+set protocols isis interface {{intf['name']}}.0 point-to-point
+{% endfor %}
+{% else %}
+{% for intf in lks -%}
+set protocols isis interface {{intf['name']}} point-to-point
+{% endfor %}
+{% endif %}
+
+

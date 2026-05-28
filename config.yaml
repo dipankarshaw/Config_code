@@ -1,0 +1,8 @@
+config:
+  - interface
+  - isis
+  - mpls-te
+  # - sr
+  # - bgp
+  # - evpn_l2vpn
+  # - l3vpn

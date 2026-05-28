@@ -1,0 +1,27 @@
+router isis 1
+   net 49.0001.0000.0000.000{{id}}.00
+   router-id ipv4 172.0.0.{{id}}
+   is-hostname R{{id}}
+   is-type level-2
+   authentication mode shared-secret profile ISIS_DB algorithm md5
+   !
+   address-family ipv6 unicast
+   !
+   address-family ipv4 unicast
+   !
+{% for intf in lks %}
+interface {{intf['name']}}
+   isis enable 1
+   isis network point-to-point
+   isis authentication mode shared-secret profile ISIS_DB algorithm md5
+!
+{%- endfor %}
+interface Loopback0
+   isis enable 1
+   isis passive
+   isis metric 1
+!
+management security
+   session shared-secret profile ISIS_DB
+      secret 0 0 abcd receive-lifetime 2024-9-01 00:00:00 2025-9-01 00:00:00 transmit-lifetime 2024-09-01 00:00:00 2025-09-01 00:00:00
+      secret 2 0 abcd1 receive-lifetime infinite transmit-lifetime infinite

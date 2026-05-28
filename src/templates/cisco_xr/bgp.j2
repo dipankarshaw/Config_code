@@ -1,0 +1,30 @@
+router bgp 100
+ address-family ipv4 unicast
+ !
+ address-family ipv6 unicast
+ !
+ neighbor-group v4-mesh
+  remote-as 100
+  update-source Loopback0
+  address-family ipv4 unicast
+  address-family vpnv4 unicast
+  !
+ !
+ neighbor-group v6-mesh
+  remote-as 100
+  update-source Loopback0
+  address-family ipv6 unicast
+  address-family vpnv6 unicast
+  !
+ !
+{% for id in mesh %}
+ neighbor 172.0.0.{{id}}
+  use neighbor-group v4-mesh
+{%- endfor %}
+{% for id in mesh %}
+ neighbor abcd::{{id}}
+  use neighbor-group v6-mesh
+{%- endfor %}
+ !
+!
+

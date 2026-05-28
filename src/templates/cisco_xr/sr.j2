@@ -1,0 +1,17 @@
+
+router isis 1
+ address-family ipv4 unicast
+  metric-style wide
+  segment-routing mpls
+ address-family ipv6 unicast
+  metric-style wide
+  single-topology
+  segment-routing mpls
+ interface Loopback0
+  address-family ipv4 unicast
+   prefix-sid index 4{{id}}
+  address-family ipv6 unicast
+   prefix-sid index 6{{id}}
+  !
+ !
+

@@ -1,0 +1,17 @@
+set interfaces lo0 unit 0 family inet address 172.0.0.{{id}}/32
+set interfaces lo0 unit 0 family inet6 address abcd::{{id}}/128
+set routing-options router-id 172.0.0.{{id}}
+{% if kind == 'juniper_vjunosrouter' %}
+{% for intf in lks -%}
+set interfaces {{intf['name']}} unit 0 family inet address 10.{{intf['ip_blc']}}.0.{{id}}/24
+set interfaces {{intf['name']}} unit 0 family inet6 address 2000:abcd:{{intf['ip_blc']}}::{{id}}/64
+set interfaces {{intf['name']}} unit 0 family iso
+set interfaces {{intf['name']}} unit 0 family mpls
+{% endfor %}
+{% else %}
+{% for intf in lks -%}
+set interfaces {{intf['name']}} unit 0 family inet address 10.{{intf['ip_blc']}}.0.{{id}}/24
+set interfaces {{intf['name']}} unit 0 family inet6 address 2000:abcd:{{intf['ip_blc']}}::{{id}}/64
+{% endfor %}
+{% endif %}
+

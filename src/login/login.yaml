@@ -1,0 +1,16 @@
+ceos: 
+  username: 'admin'
+  password: 'admin'
+  device_type: 'arista_eos'
+cisco_xrd: 
+  username: 'clab'
+  password: 'clab@123'
+  device_type: 'cisco_xr'
+juniper_crpd: 
+  username: 'root'
+  password: 'clab123'
+  device_type: 'juniper_junos'
+juniper_vjunosrouter: 
+  username: 'admin'
+  password: 'admin@123'
+  device_type: 'juniper_junos'

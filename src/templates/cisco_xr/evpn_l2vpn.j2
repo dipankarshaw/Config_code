@@ -1,0 +1,22 @@
+{% if l2vpn_interfaces %}
+interface Bundle-Ether1
+ description EVPN-VPLS Interface
+!
+{%- for intf in l2vpn_interfaces %}
+interface {{ intf['name'] }}
+ mtu 9000
+!
+{% endfor %}
+l2vpn
+ bridge group EVPN-VPLS
+  bridge-domain VPLS-BD
+{%- for intf in l2vpn_interfaces %}
+   interface {{ intf['name'] }}
+!
+{% endfor %}
+   routing-instances EVPN-VPLS
+    vrf-target target:100:1
+    rd 172.0.0.{{id}}:1
+    signaling-protocol bgp
+!
+{% endif %}

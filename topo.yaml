@@ -1,0 +1,16 @@
+name: vjunosrouter
+topology:
+  nodes:
+    R5:
+      kind: juniper_vjunosrouter
+      image: vrnetlab/vr-vjunosrouter:23.2R1.15
+    R6:
+      kind: juniper_vjunosrouter
+      image: vrnetlab/vr-vjunosrouter:23.2R1.15
+    R8:
+      kind: juniper_vjunosrouter
+      image: vrnetlab/vr-vjunosrouter:23.2R1.15
+  links:
+          - endpoints: ["R5:eth2", "R6:eth2"]
+          - endpoints: ["R8:eth3", "R6:eth3"]
+          - endpoints: ["R5:eth4", "R8:eth4"]
