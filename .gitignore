@@ -138,7 +138,6 @@ streamlit_state/
 config/*.conf
 
 # Containerlab
-.clab.yaml
 .topo.yaml.bak
 
 # SSH keys and credentials
